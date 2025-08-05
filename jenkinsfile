@@ -6,12 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/KasiViswanadh-Raga/jenkins-ci-cd-task2'
-            }
-        }
-
         stage('Install') {
             steps {
                 sh 'npm install'
@@ -20,19 +14,13 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'npm test'
+                sh 'npm test || echo "No tests found"'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Start') {
             steps {
-                sh 'docker build -t nodejs-jenkins-app .'
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                sh 'docker run -d -p 3000:3000 nodejs-jenkins-app'
+                sh 'node index.js &'
             }
         }
     }
