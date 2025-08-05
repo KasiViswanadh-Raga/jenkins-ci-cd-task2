@@ -1,0 +1,25 @@
+{
+  "name": "jenkins-ci-cd-task2",
+  "version": "1.0.0",
+  "description": "devops task-2 creating a CI-CD pipeline using jenkins and docker",
+  "main": "index.js",
+  "scripts": {
+  "start": "node index.js",
+  "test": "echo \"No tests yet\" && exit 0"
+  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KasiViswanadh-Raga/jenkins-ci-cd-task2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KasiViswanadh-Raga/jenkins-ci-cd-task2/issues"
+  },
+  "homepage": "https://github.com/KasiViswanadh-Raga/jenkins-ci-cd-task2#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
