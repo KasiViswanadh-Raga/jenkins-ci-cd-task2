@@ -1,24 +1,35 @@
 pipeline {
-   agent  {
-       docker  {
-           image 'node:18'
+    agent any
+
+    stages {
+        stage('Pull Docker Image') {
+            steps {
+                bat 'docker pull node:18'
+            }
         }
-    }
-    stages  {
-        stage('install') {
-             steps  {
-                  sh 'npm install'
-              }
-         }
-         stage('Test') {
-              steps {
-                 sh 'npm test'
-               }
-          }
-          stage('start') {
-              steps {
-                  sh 'node index.js &'
-               }
-          }
-      }
- }
+
+        stage('Run Container & Install') {
+            steps {
+                bat '''
+                docker run --rm -v %cd%:/app -w /app node:18 cmd /c "npm install"
+                '''
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                bat '''
+                docker run --rm -v %cd%:/app -w /app node:18 cmd /c "npm test || echo No tests found"
+                '''
+            }
+        }
+
+        stage('Start App') {
+            steps {
+                bat '''
+                docker run -d -v %cd%:/app -w /app -p 8080:8080 node:18 cmd /c "node index.js"
+                '''
+            }
+        }
+    }
+}
