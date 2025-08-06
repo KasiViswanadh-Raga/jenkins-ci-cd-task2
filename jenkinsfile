@@ -4,30 +4,30 @@ pipeline {
     stages {
         stage('Pull Docker Image') {
             steps {
-                bat 'docker pull node:18'
+                sh 'docker pull node:18'
             }
         }
 
         stage('Run Container & Install') {
             steps {
-                bat '''
-                docker run --rm -v %cd%:/app -w /app node:18 cmd /c "npm install"
+                sh '''
+                docker run --rm -v $(pwd):/app -w /app node:18 sh -c "npm install"
                 '''
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat '''
-                docker run --rm -v %cd%:/app -w /app node:18 cmd /c "npm test || echo No tests found"
+                sh '''
+                docker run --rm -v $(pwd):/app -w /app node:18 sh -c "npm test || echo No tests found"
                 '''
             }
         }
 
         stage('Start App') {
             steps {
-                bat '''
-                docker run -d -v %cd%:/app -w /app -p 8080:8080 node:18 cmd /c "node index.js"
+                sh '''
+                docker run -d -v $(pwd):/app -w /app -p 8080:8080 node:18 sh -c "node index.js"
                 '''
             }
         }
